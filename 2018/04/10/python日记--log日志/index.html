@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/danniel/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/danniel/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/danniel/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/danniel/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/danniel/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/danniel/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/danniel/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python 基础," />
+
+
+
+
+
+  <link rel="alternate" href="/danniel/atom.xml" title="Danniel's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="自从开通了简书,我就每天拿着刷刷一波美文,时不时想着趁程序运行着,来简书上记录生活点点滴滴。  接着上篇文章写吧,先说说日志:">
+<meta name="keywords" content="python 基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python的LOGGING模块">
+<meta property="og:url" content="https://dannieldylan.github.io/danniel/2018/04/10/python日记--log日志/index.html">
+<meta property="og:site_name" content="Danniel&#39;s Blog">
+<meta property="og:description" content="自从开通了简书,我就每天拿着刷刷一波美文,时不时想着趁程序运行着,来简书上记录生活点点滴滴。  接着上篇文章写吧,先说说日志:">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-10T08:57:33.421Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python的LOGGING模块">
+<meta name="twitter:description" content="自从开通了简书,我就每天拿着刷刷一波美文,时不时想着趁程序运行着,来简书上记录生活点点滴滴。  接着上篇文章写吧,先说说日志:">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/danniel/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dannieldylan.github.io/danniel/2018/04/10/python日记--log日志/"/>
+
+
+
+
+
+  <title>python的LOGGING模块 | Danniel's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/DannielDylan/"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/danniel/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Danniel's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">记录学习的技能与遇到的问题</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/danniel/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/danniel/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/danniel/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/danniel/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/danniel/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/danniel/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dannieldylan.github.io/danniel/danniel/2018/04/10/python日记--log日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dylan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/2e2eb9389b504fc2884698fceedde71190ef6d29.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Danniel's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">python的LOGGING模块</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T01:55:05+08:00">
+                2018-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,914
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>自从开通了简书,我就每天拿着刷刷一波美文,时不时想着趁程序运行着,来简书上记录生活点点滴滴。
+</code></pre><p> 接着上篇文章写吧,先说说日志:<br> <a id="more"></a></p>
+<ol>
+<li>日志的作用<br>通过log的分析,可以方便用户了解系统或软件、程序应用的运行情况。web方面,如果你的应用log足够丰富,那可以分析用户的操作行为,喜好、地域分布或其他更多信息。爬虫方面,通过设置不同级别的等级,那么可以得到实时的状况反馈,及时发现问题并快速定位,解决问题,甚至有时可以补救损失。<br>日志的作用可以简单总结三点：程序DEBUG调试，程序运行情况，是否有异常，软件程序运行是否有故障。<br>2.日志的等级</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>LEVEL</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEBUG</td>
+<td>指出细粒度信息事件对调试应用程序是非常有帮助的，主要用于开发过程中打印一些运行信息</td>
+</tr>
+<tr>
+<td>INFO</td>
+<td>消息在粗粒度级别上突出强调应用程序的运行过程。打印一些你感兴趣的或者重要的信息，这个可以用于生产环境中输出程序运行的一些重要信息，但是不能滥用，避免打印过多的日志。</td>
+</tr>
+<tr>
+<td>NOTICE</td>
+<td></td>
+</tr>
+<tr>
+<td>WARING</td>
+<td>表明会出现潜在错误的情形，有些信息不是错误信息，但是也要给程序员的一些提示。</td>
+</tr>
+<tr>
+<td>ERROR</td>
+<td>指出虽然发生错误事件，但仍然不影响系统的继续运行。打印错误和异常信息，如果不想输出太多的日志，可以使用这个级别</td>
+</tr>
+<tr>
+<td>CRITICAL</td>
+<td></td>
+</tr>
+<tr>
+<td>ALERT</td>
+<td></td>
+</tr>
+<tr>
+<td>EMERGENCY</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="进入主题吧-python的LOGGING模块"><a href="#进入主题吧-python的LOGGING模块" class="headerlink" title="进入主题吧,python的LOGGING模块"></a>进入主题吧,python的LOGGING模块</h4><p>logging模块简介:<br>    logging模块是Python的一个标准库模块，由标准库模块提供日志记录API的关键好处是所有Python模块都可以使用这个日志记录功能</p>
+<ol>
+<li><strong>logging模块的日志级别</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">日志等级(level)</th>
+<th style="text-align:left">描述(description)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DEBUG</td>
+<td style="text-align:left">最详细的日志信息,典型应用场景是 问题诊断</td>
+</tr>
+<tr>
+<td style="text-align:left">INFO</td>
+<td style="text-align:left">信息详细程度仅次于DEBUG,通常只记录关键节点信息</td>
+</tr>
+<tr>
+<td style="text-align:left">WARING</td>
+<td style="text-align:left">当某些不期望的事情发生时记录的信息(如:版本问题,存储可用空间较低),但此时还能正常运行</td>
+</tr>
+<tr>
+<td style="text-align:left">ERROR</td>
+<td style="text-align:left">由于一个更严重的问题导致某些功能不能正常运行时记录的信息</td>
+</tr>
+<tr>
+<td style="text-align:left">CRITICAL = FATAL</td>
+<td style="text-align:left">当发生严重错误时,导致应用程序不能继续运行时记录的信息</td>
+</tr>
+</tbody>
+</table>
+<p>开发应用程序或部署开发环境时，可以使用DEBUG或INFO级别的日志获取尽可能详细的日志信息来进行开发或部署调试；应用上线或部署生产环境时，应该使用WARNING或ERROR或CRITICAL级别的日志来降低机器的I/O压力和提高获取错误日志信息的效率。日志级别的指定通常都是在应用程序的配置文件中进行指定的。</p>
+<ol start="2">
+<li><strong>logging的基本用法</strong></li>
+</ol>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#-*- coding:utf-8 -*-</span></span><br><span class="line">import logging</span><br><span class="line"><span class="meta">#指定logger的输出格式</span></span><br><span class="line">formatter = logging.Formatter(<span class="string">'%(asctime)s %(levelname)-8s: %(message)s'</span>)</span><br><span class="line"><span class="meta">#文件日志</span></span><br><span class="line">file_handler = logging.FieldHandler(<span class="string">'xxx.log'</span>)</span><br><span class="line">file_handler = setFormatter(formatter)  #可以通过setFormatter指定输出格式</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta"># 控制台日志</span></span><br><span class="line">console_handler = logging.StreamHandler(sys.<span class="keyword">stdout</span>)</span><br><span class="line">console_handler.formatter = formatter  # 也可以直接给formatter赋值</span><br><span class="line"></span><br><span class="line"><span class="meta"># 为logger添加的日志处理器</span></span><br><span class="line">logger.addHandler(file_handler)</span><br><span class="line">logger.addHandler(console_handler)</span><br><span class="line"></span><br><span class="line"><span class="meta"># 指定日志的最低输出级别，默认为WARN级别</span></span><br><span class="line">logger.setLevel(logging.INFO)</span><br><span class="line"></span><br><span class="line"><span class="meta"># 输出不同级别的log</span></span><br><span class="line">logger.debug(<span class="string">'this is debug info'</span>)</span><br><span class="line">logger.info(<span class="string">'this is information'</span>)</span><br><span class="line">logger.warn(<span class="string">'this is warning message'</span>)</span><br><span class="line">logger.error(<span class="string">'this is error message'</span>)</span><br><span class="line">logger.fatal(<span class="string">'this is fatal message, it is same as logger.critical'</span>)</span><br><span class="line">logger.critical(<span class="string">'this is critical message'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">#移除一些日志处理</span></span><br><span class="line">logger.removeHandler(file_handler)</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p><strong>scrapy中如何使用logging日志呢?</strong><br>为了让我们自己希望输出到终端的内容能容易看一些：<br>我们可以在setting中设置log级别<br> 在setting中添加一行（全部大写）：LOG_LEVEL = “WARNING”<br> 默认终端显示的是debug级别的log信息</p>
+<p>通过在setting.py中进行以下设置可以被用来配置logging:(具体设置参考代码的<a href="https://dannieldylan.github.io/danniel/2018/04/07/python%E4%BD%BF%E7%94%A8crapy%E7%88%AC%E5%8F%96%E5%B0%8F%E7%8C%AA%E7%9F%AD%E7%A7%9F/#more">custom-settings</a>)</p>
+<p>LOG_ENABLED 默认: True，启用logging<br>LOG_ENCODING 默认: ‘utf-8’，logging使用的编码<br>LOG_FILE 默认: None，在当前目录里创建logging输出文件的文件名<br>LOG_LEVEL 默认: ‘DEBUG’，log的最低级别<br>LOG_STDOUT 默认: False 如果为 True，进程所有的标准输出(及错误)将会被重定向到log中。例如，执行 print “hello” ，其将会在Scrapy log中显示</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#此种方法无法显示log位置</span></span><br><span class="line">import logging</span><br><span class="line">def process_item(self,item,spider):</span><br><span class="line">    logging.<span class="builtin-name">warning</span>(item)</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加__name__就能够显示log位置</span></span><br><span class="line">import logging</span><br><span class="line"><span class="attribute">logger</span>=logging.getLogger(__name__)</span><br><span class="line">def process_item(self,item,spider):</span><br><span class="line">    logging.<span class="builtin-name">warning</span>(item)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>格式化输出日志</strong></p>
+</li>
+</ol>
+<p>service_name = “Spider”<br>logger.error(‘%s service is down!’ % service_name)  # 使用python自带的字符串格式化，不推荐<br>logger.error(‘%s service is down!’, service_name)  # 使用logger的格式化，推荐<br>logger.error(‘%s service is %s!’, service_name, ‘down’)  # 多参数格式化<br>logger.error(‘{} service is {}’.format(service_name, ‘down’)) # 使用format函数，推荐</p>
+<ol start="5">
+<li><strong>那现在就来说说Formatter日志写法吧</strong><br>Formatter 对象定义了log信息的结构和内容,构造时需要带两个参数:</li>
+</ol>
+<ul>
+<li>格式化的模板fmt,默认会包含最近本的level和message信息</li>
+<li>格式化的时间样式,默认为%Y-%m-%d %H:%M:%S   如:2018-04-10.<br>fmt中允许使用的变量可以参考如下表:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数变量</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">%(name)s</td>
+<td style="text-align:left">Logger的名字</td>
+</tr>
+<tr>
+<td style="text-align:left">%(message)s</td>
+<td style="text-align:left">用户输出的消息</td>
+</tr>
+<tr>
+<td style="text-align:left">%(process)d 进程ID</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">%(threadName)s 线程名</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">%(thread)d 线程ID</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">%(asctime)s</td>
+<td style="text-align:left">字符串形式的当前时间。默认格式是“2003-07-08 16:49:45,896”。逗号后面的是毫秒</td>
+</tr>
+<tr>
+<td style="text-align:left">%(relativeCreated)d</td>
+<td style="text-align:left">输出日志信息时的，自Logger创建以来的毫秒数</td>
+</tr>
+<tr>
+<td style="text-align:left">%(created)f</td>
+<td style="text-align:left">当前时间，用UNIX标准的表示时间的浮点数表示</td>
+</tr>
+<tr>
+<td style="text-align:left">%(lineno)d</td>
+<td style="text-align:left">调用日志输出函数的语句所在的代码行</td>
+</tr>
+<tr>
+<td style="text-align:left">%(funcName)s</td>
+<td style="text-align:left">调用日志输出函数的函数名</td>
+</tr>
+<tr>
+<td style="text-align:left">%(module)s</td>
+<td style="text-align:left">调用日志输出函数的模块名</td>
+</tr>
+<tr>
+<td style="text-align:left">%(filename)s</td>
+<td style="text-align:left">调用日志输出函数的模块的文件名</td>
+</tr>
+<tr>
+<td style="text-align:left">%(pathname)s</td>
+<td style="text-align:left">调用日志输出函数的模块的完整路径名，可能没有</td>
+</tr>
+<tr>
+<td style="text-align:left">%(levelno)s</td>
+<td style="text-align:left">数字形式的日志级别</td>
+</tr>
+<tr>
+<td style="text-align:left">%(levelname)s</td>
+<td style="text-align:left">文本形式的日志级别</td>
+</tr>
+</tbody>
+</table>
+<ol start="6">
+<li><strong>日志重复输出的坑</strong><br> 你有可能会看到你的日志会重复显示多次,请注意是否使用了重复的handler<br> 暂时没出现打印日志错误,嘿嘿有可能是自己写的log需求不大吧,在公司里正儿八经的,这要记录日志,那要记录日志,估计重复可能性还是蛮大的。<br> 还是记录下来,以后会用到:<ul>
+<li>调用basicConfig()方法时系统会默认创建一个handler,如果你再添加一个控制台handler时就会出现重复日志</li>
+<li>每次调用get_logger()方法时都会添加一个新的handler 那岂不是很明显的呵呵了….建议全局只配logger一次</li>
+</ul>
+</li>
+<li><strong>日志何去何从?</strong><br> 日志作为python中的标准库模块,也支持如过滤,文件锁等高级功能,暂时还没怎么应用就不扯犊子了 (<em>^▽^</em>)</li>
+</ol>
+<p><strong>感谢您的阅读,以上是本人遇到过或学习过程记录的笔记,水平有限,仅供参考,如果发现错误请及时联系作者,谢谢!</strong></p>
+<p><strong><em>欢迎进我的简书文章(<a href="https://www.jianshu.com/u/4b078c4c0e3a),不定时更新,祝" target="_blank" rel="noopener">https://www.jianshu.com/u/4b078c4c0e3a),不定时更新,祝</a><br>共同进步!</em></strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/danniel/tags/python-基础/" rel="tag"><i class="fa fa-tag"></i>
+
+ python 基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/danniel/2018/04/07/python使用crapy爬取小猪短租/" rel="next" title="python Scrapy爬取小猪短租">
+                <i class="fa fa-chevron-left"></i> python Scrapy爬取小猪短租
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/danniel/2018/04/10/知识点回顾/" rel="prev" title="Python知识点重温">
+                Python知识点重温 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/2e2eb9389b504fc2884698fceedde71190ef6d29.jpg"
+                alt="Dylan" />
+            
+              <p class="site-author-name" itemprop="name">Dylan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/danniel/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/danniel/tags/tags.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/danniel/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/DannielDylan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:danniel0723@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#进入主题吧-python的LOGGING模块"><span class="nav-number">1.</span> <span class="nav-text">进入主题吧,python的LOGGING模块</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dylan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">30.0k</span>
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共30.0k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/danniel/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/danniel/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/danniel/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/danniel/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
