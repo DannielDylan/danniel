@@ -3,17 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>&#39;redhat/centos使用&#39; | Danniel’s Blog</title>
+  <title>redhat/centos使用 | Danniel’s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta property="og:type" content="article">
-<meta property="og:title" content="&#39;redhat&#x2F;centos使用&#39;">
+  <meta name="description" content="RedHat Enterprise Linux 7使用yum安装出现This system is not registered to Red Hat Subscription Management。经过百度、谷歌才知道，如果使用redhat的yum源是需要注册付费的，那么如果不想付费或者作为一名初学者和学生，较多的不想花钱咯（当然有钱另说咯）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redhat&#x2F;centos使用">
 <meta property="og:url" content="https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/index.html">
 <meta property="og:site_name" content="Danniel’s Blog">
+<meta property="og:description" content="RedHat Enterprise Linux 7使用yum安装出现This system is not registered to Red Hat Subscription Management。经过百度、谷歌才知道，如果使用redhat的yum源是需要注册付费的，那么如果不想付费或者作为一名初学者和学生，较多的不想花钱咯（当然有钱另说咯）。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-29T01:38:01.409Z">
+<meta property="og:updated_time" content="2018-10-09T12:27:11.486Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="&#39;redhat&#x2F;centos使用&#39;">
+<meta name="twitter:title" content="redhat&#x2F;centos使用">
+<meta name="twitter:description" content="RedHat Enterprise Linux 7使用yum安装出现This system is not registered to Red Hat Subscription Management。经过百度、谷歌才知道，如果使用redhat的yum源是需要注册付费的，那么如果不想付费或者作为一名初学者和学生，较多的不想花钱咯（当然有钱另说咯）。">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -116,7 +119,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      &#39;redhat/centos使用&#39;
+      redhat/centos使用
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -138,11 +141,32 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            
+            <p>RedHat Enterprise Linux 7使用yum安装出现This system is not registered to Red Hat Subscription Management。经过百度、谷歌才知道，如果使用redhat的yum源是需要注册付费的，那么如果不想付费或者作为一名初学者和学生，较多的不想花钱咯（当然有钱另说咯）。<br><a id="more"></a><br>那么现在开始卸载原来所有yum的依赖包，然后使用centos的yum源，在这还得注意的是所有人的环境和系统都不一样，解决方法不尽相同，需要”随机应变”，不要照搬轮子。</p>
+<h3 id="1-卸载RedHat原来的自带的yum包"><a href="#1-卸载RedHat原来的自带的yum包" class="headerlink" title="1.卸载RedHat原来的自带的yum包"></a><strong><em>1.卸载RedHat原来的自带的yum包</em></strong></h3><p>使用命令 rpm -qa|grep yum 能够查看已经安装的yum包。然后使用命令 rpm -qa|grep yum|xargs rpm -e –nodeps 不检查依赖直接删除所有的rpm包。最后再次用 rpm -qa|grep yum 命令查看，发现没有任何显示，则表示卸载成功。</p>
+<p>在下载新的centos的yum包前，还需要弄清自己的系统版本号和系统位数，使用命令cat /etc/issue &amp;&amp; arch 查看，如果是i386或者i686就是32位的，如果是x86_64就是64位的，然后去各大国内镜像centos网站找对应系统版本和系统位数下载。本文以<a href="http://mirrors.163.com/centos/" target="_blank" rel="noopener">网易163</a>(<a href="http://mirrors.163.com/centos/)举例" target="_blank" rel="noopener">http://mirrors.163.com/centos/)举例</a>.<br>首先在对应系统的centos文件内下载以下文件或者对应的使用wget+镜像地址等安装即可<br>文件下载方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">第一步在home目录下创建yum命名的文件夹</span><br><span class="line">[root@DylanWoo Desktop]# mkdir /home/yum</span><br><span class="line">将浏览器下载的7个文件移动或者复制到yum目录下(如果跟我系统一样的Red Hat Enterprise Linux Server 7.0-x86_64，则可以打开我的网盘进行下载链接: https://pan.baidu.com/s/1gpON2A1wYPlg2Ptfd1mZtQ 提取码: q73v）</span><br><span class="line">[python-iniparse-0.4-9.el7.noarch.rpm</span><br><span class="line">python-urlgrabber-3.10-8.el7.noarch.rpm</span><br><span class="line">yum-3.4.3-158.el7.centos.noarch.rpm</span><br><span class="line">yum-metadata-parser-1.1.4-10.el7.x86_64.rpm</span><br><span class="line">yum-plugin-fastestmirror-1.1.31-45.el7.noarch.rpm</span><br><span class="line">yum-updateonboot-1.1.31-45.el7.noarch.rpm</span><br><span class="line">yum-utils-1.1.31-45.el7.noarch.rpm]</span><br><span class="line">[root@DylanWoo yum]# ls</span><br><span class="line">python-iniparse-0.4-9.el7.noarch.rpm</span><br><span class="line">python-urlgrabber-3.10-8.el7.noarch.rpm</span><br><span class="line">yum-3.4.3-158.el7.centos.noarch.rpm</span><br><span class="line">yum-metadata-parser-1.1.4-10.el7.x86_64.rpm</span><br><span class="line">yum-plugin-fastestmirror-1.1.31-45.el7.noarch.rpm</span><br><span class="line">yum-updateonboot-1.1.31-45.el7.noarch.rpm</span><br><span class="line">yum-utils-1.1.31-45.el7.noarch.rpm</span><br><span class="line">[root@DylanWoo yum]# rpm -ivh *.rpm</span><br></pre></td></tr></table></figure>
+<p>安装yum过程中可能会出现的坑 </p>
+<ol>
+<li><p>警告：yum-3.4.3-158.el7.centos.noarch.rpm: 头V3 RSA/SHA256 Signature, 密钥 ID f4a80eb5: NOKEY\<br>错误：依赖检测失败：<br> python-urlgrabber &gt;= 3.10-8 被 yum-3.4.3-158.el7.centos.noarch 需要\<br> rpm &gt;= 0:4.11.3-22 被 yum-3.4.3-158.el7.centos.noarch 需要</p>
+<p> 解决：<br>wget <a href="http://mirrors.163.com/centos/7/os/x86_64/Packages/rpm-4.11.3-32.el7.x86_64.rpm\" target="_blank" rel="noopener">http://mirrors.163.com/centos/7/os/x86_64/Packages/rpm-4.11.3-32.el7.x86_64.rpm\</a><br>rpm -Uvh rpm-4.11.3-32.el7.x86_64.rpm –nodeps</p>
+</li>
+</ol>
+<p>考虑到国内无法访问Google，所以需要自己配置yum源，在目录 /etc/yum.repos.d/ 下新建google-chrome.repo文件，\<br>···</p>
+<p>cd /ect/yum.repos.d/ \<br>vim google-chrome.repo</p>
+<p>···</p>
+<p>写入如下内容:</p>
+<p>···<br>[google-chrome]<br>name=google-chrome<br>baseurl=<a href="http://dl.google.com/linux/chrome/rpm/stable/$basearch" target="_blank" rel="noopener">http://dl.google.com/linux/chrome/rpm/stable/$basearch</a><br>enabled=1<br>gpgcheck=1<br>gpgkey=<a href="https://dl-ssl.google.com/linux/linux_signing_key.pub" target="_blank" rel="noopener">https://dl-ssl.google.com/linux/linux_signing_key.pub</a></p>
+<p>···<br>yum -y install google-chrome-stable –nogpgcheck</p>
+<h4 id="简易使用代理设置"><a href="#简易使用代理设置" class="headerlink" title="简易使用代理设置"></a>简易使用代理设置</h4><p>通过使用vmware虚拟机实现局域网代理<br>ssr选项设置中将本地代理 允许来自局域网的连接 端口为1080</p>
+<p>[root@DylanWoo Downloads]# google-chrome &amp;<br>[1] 5635<br>[root@DylanWoo Downloads]# /bin/google-chrome: symbol lookup error: /bin/google-chrome: undefined symbol: gtk_widget_get_scale_factor<br>处理 initscripts-9.49.41-1.el7_5.2.x86_64 与 redhat-release &lt; 7.5-0.11 的冲突<br>–&gt; 解决依赖关系完成</p>
+<p>rpm -e redhat-release-server-7.0-1.el7.x86_64 –nodeps</p>
+<p>[root@DylanWoo yum.repos.d]# yum clean all<br>bash: yum: 未找到命令…</p>
+<h4 id="安装方式之一"><a href="#安装方式之一" class="headerlink" title="安装方式之一"></a>安装方式之一</h4><p>yum install <a href="https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm" target="_blank" rel="noopener">https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm</a></p>
+
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年09月29日 09:38</p>
-        <p>原始链接： <a class="post-url" href="/danniel/2018/09/29/redhat-centos使用/" title="&#39;redhat/centos使用&#39;">https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/</a></p>
+        <p>最后更新： 2018年10月09日 20:27</p>
+        <p>原始链接： <a class="post-url" href="/danniel/2018/09/29/redhat-centos使用/" title="redhat/centos使用">https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/</a></p>
         <footer>
             <a href="https://dannieldylan.github.io/danniel">
                 <img src="/danniel/images/logo.png" alt="DylanWoo">
@@ -199,7 +223,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/&title=《'redhat/centos使用'》 — Danniel’s Blog&pic=https://dannieldylan.github.io/dannielimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/&title=《redhat/centos使用》 — Danniel’s Blog&pic=https://dannieldylan.github.io/dannielimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -209,7 +233,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/&title=《'redhat/centos使用'》 — Danniel’s Blog&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/&title=《redhat/centos使用》 — Danniel’s Blog&source=RedHat Enterprise Linux 7使用yum安装出现This system is not registered to Red Hat Su..." data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -219,7 +243,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《'redhat/centos使用'》 — Danniel’s Blog&url=https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/&via=https://dannieldylan.github.io/danniel" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《redhat/centos使用》 — Danniel’s Blog&url=https://dannieldylan.github.io/danniel/2018/09/29/redhat-centos使用/&via=https://dannieldylan.github.io/danniel" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -250,6 +274,12 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-卸载RedHat原来的自带的yum包"><span class="post-toc-text">1.卸载RedHat原来的自带的yum包</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#简易使用代理设置"><span class="post-toc-text">简易使用代理设置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装方式之一"><span class="post-toc-text">安装方式之一</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
 
 
 
