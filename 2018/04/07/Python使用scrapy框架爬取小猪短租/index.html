@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/danniel/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/danniel/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/danniel/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/danniel/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/danniel/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/danniel/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/danniel/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="随笔," />
+
+
+
+
+
+  <link rel="alternate" href="/danniel/atom.xml" title="Danniel’s Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="个人博客Danniel’s Blog,不定时更新,欢迎指正! 找工作之余,要考虑租房问题,天天刷房源,所有才有了这个想法爬几个租房的网站吧。">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python Scrapy爬取小猪短租">
+<meta property="og:url" content="https://dannieldylan.github.io/danniel/2018/04/07/Python使用scrapy框架爬取小猪短租/index.html">
+<meta property="og:site_name" content="Danniel’s Blog">
+<meta property="og:description" content="个人博客Danniel’s Blog,不定时更新,欢迎指正! 找工作之余,要考虑租房问题,天天刷房源,所有才有了这个想法爬几个租房的网站吧。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-1c7d6e0540955283.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11372882-ed7856d0063da017.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-946d3608ee40ec3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-1681e485ff8e8a1a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-6c3e93385a1802dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-10-10T13:49:33.472Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python Scrapy爬取小猪短租">
+<meta name="twitter:description" content="个人博客Danniel’s Blog,不定时更新,欢迎指正! 找工作之余,要考虑租房问题,天天刷房源,所有才有了这个想法爬几个租房的网站吧。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11372882-1c7d6e0540955283.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/danniel/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dannieldylan.github.io/danniel/2018/04/07/Python使用scrapy框架爬取小猪短租/"/>
+
+
+
+
+
+  <title>python Scrapy爬取小猪短租 | Danniel’s Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/danniel/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Danniel’s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/danniel/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/danniel/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/danniel/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/danniel/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dannieldylan.github.io/danniel/danniel/2018/04/07/Python使用scrapy框架爬取小猪短租/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DylanWoo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/danniel/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Danniel’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python Scrapy爬取小猪短租</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-07T17:58:48+08:00">
+                2018-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>个人博客<a href="https://dannieldylan.github.io/danniel/">Danniel’s Blog</a>,不定时更新,欢迎指正!</p>
+<p><strong>找工作之余,要考虑租房问题,天天刷房源,所有才有了这个想法爬几个租房的网站吧。<br><a id="more"></a><br>先来写个小猪短租的吧,废话不多说直接撸代码。</strong></p>
+<h3 id="一-创建项目-tenement"><a href="#一-创建项目-tenement" class="headerlink" title="一 创建项目 tenement"></a>一 创建项目 tenement</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject tenement</span><br><span class="line">New Scrapy project &apos;tenement&apos;, using template directory &apos;d:\\anaconda3\\lib\\site-packages\\scrapy\\templates\\project&apos;, created in:</span><br><span class="line">    C:\Users\Dylan\Desktop\tenement</span><br><span class="line"></span><br><span class="line">You can start your first spider with:</span><br><span class="line">    cd tenement</span><br><span class="line">    scrapy genspider example example.com</span><br></pre></td></tr></table></figure>
+<p><strong>在scrapy框架中,如果想多个批量运行爬虫文件,常见有两种方法:</strong></p>
+<ol>
+<li>使用CrawProcess实现</li>
+<li>使用修改craw源码+自定义命令的方式实现</li>
+</ol>
+<p>(*￣︶￣)在这里我们就使用常用的方法:<br>进入该爬虫项目所在目录,并且在该项目中实时创建爬虫文件(目的为了创建多个爬虫文件,以供待运行),下面继续码字吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Dylan\Desktop&gt;cd tenement</span><br><span class="line">C:\Users\Dylan\Desktop\tenement&gt;scrapy genspider -t basic Short_rent_for_piglets xiaozhu.com</span><br><span class="line">Created spider &apos;Short_rent_for_piglets&apos; using template &apos;basic&apos; in module:</span><br><span class="line">  tenement.spiders.Short_rent_for_piglets</span><br></pre></td></tr></table></figure>
+<h3 id="二-找出想要的url-发送请求-获取响应"><a href="#二-找出想要的url-发送请求-获取响应" class="headerlink" title="二 找出想要的url(发送请求,获取响应)"></a>二 找出想要的url(发送请求,获取响应)</h3><p>上个<a href="http:hz.xiaozhu.com/" target="_blank" rel="noopener">小猪短租</a>网址吧,快速浏览第1页,第2页,第3页….通过chrome开发者工具按下ctrl+shift+I和F5(或F12+F5) 很快就找到了network(网络)里的headers(消息头),看到Request URL:(<a href="http://sh.xiaozhu.com/search-duanzufang-p{}-0/" target="_blank" rel="noopener">http://sh.xiaozhu.com/search-duanzufang-p{}-0/</a> {})内就是数字所对应的页码数,仔细看了下网页版的好像就13页左右,没有APP的多,今天我就先写个网页版的吧.<br>在这里记录下下次有机会去爬app看看,能加载多少房源。  </p>
+<h5 id="TODO-记得爬小猪短租APP"><a href="#TODO-记得爬小猪短租APP" class="headerlink" title="TODO  记得爬小猪短租APP"></a>TODO  记得爬小猪短租APP</h5><h3 id="写parse函数-利用Xpath或者Selector提取对应的数据"><a href="#写parse函数-利用Xpath或者Selector提取对应的数据" class="headerlink" title="写parse函数  利用Xpath或者Selector提取对应的数据"></a>写parse函数  利用Xpath或者Selector提取对应的数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">先找到所有信息</span><br><span class="line">infos=response.xpath(&apos;//div[@id=&quot;page_list&quot;]/ul/li&apos;)</span><br><span class="line">标题 title =li.xpath(&apos;./div[2]/div/a/span/text()&apos;).extract_first()</span><br><span class="line">价格 price =li.xpath(&apos;./div[2]/span[1]/i/text()&apos;).extract_first()</span><br><span class="line">描述 desc =li.xpath(&apos;./div[2]/div/em/text()&apos;).extract_first().strip()</span><br><span class="line">详情页comment_url=li.xpath(&apos;./a/@href&apos;).extract_first()</span><br><span class="line">图片 images=li.xpath(&apos;./a/img/@lazy_src&apos;).extract_first()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11372882-1c7d6e0540955283.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>提取上面的对应的ico的title是不是很简单?直接能用xpath取出来,哈哈,结果跑起程序后肯定一脸懵,为啥我取出来的数据类似下面举例的这B玩意?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shipai&apos;: &lt;Selector xpath=&apos;./div[2]/div/p/span/@title&apos; data=&apos;商旅认证：随时入住、交通便利、适合办公&apos;&gt;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/11372882-ed7856d0063da017.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br>其实是忘记写了xpath().extract(),BLABLA一大堆,感觉今天咋这么多”特效”,废话不多说直接上代码<br><img src="https://upload-images.jianshu.io/upload_images/11372882-946d3608ee40ec3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="xpath使用"></p>
+<p><strong>在这顺便说下extract()与extract_first()的区别</strong><br><strong>在scrapy.Selector选择器中提取字符串:</strong></p>
+<ol>
+<li><strong>extract()返回一个包含有字符串数据的列表</strong></li>
+<li><strong>extract_first()返回列表中的第一个字符串</strong><h5 id="DEBUG调试"><a href="#DEBUG调试" class="headerlink" title="DEBUG调试"></a>DEBUG调试</h5><strong>出现Filtered offsite request to </strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">官方对这个的解释，是你要request的地址和allow_domain里面的冲突，从而被过滤掉。可以停用过滤功能。</span><br><span class="line">yield Request(url, callback=self.parse_item, dont_filter=True)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>如果出现Unhandled error in Deferred:</strong><br>请检验python是否没装pywin32模块或者pywin32的64位模块(<a href="https://pypi.python.org/pypi/pywin32" target="_blank" rel="noopener">https://pypi.python.org/pypi/pywin32</a>)<br>或:<br>作为程序运行错误时,提示作用<br>因为我在程序中设定了自定义配置,故会在log日志里存储对应时间内的异常错误代码提示</p>
+<h3 id="爬取数据过程中要与反爬技术常打交道-该程序只用了常规的IP代理-UA随机请求头两中间件。"><a href="#爬取数据过程中要与反爬技术常打交道-该程序只用了常规的IP代理-UA随机请求头两中间件。" class="headerlink" title="爬取数据过程中要与反爬技术常打交道,该程序只用了常规的IP代理,UA随机请求头两中间件。"></a>爬取数据过程中要与反爬技术常打交道,该程序只用了常规的IP代理,UA随机请求头两中间件。</h3><p>先从编写代理中间件开始吧<br><img src="https://upload-images.jianshu.io/upload_images/11372882-1681e485ff8e8a1a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="编写中间件"></p>
+<p>顺便说下免费代理与付费代理的使用:</p>
+<ol>
+<li>手动更新ip pool,如上图所示从免费代理网站爬取的ip写入proxies的列表内,通过random模块的方法随机一个IP作为代理</li>
+<li>自动更新ip pool,  顾名思义就是将爬取到的代理通过创建IP pool池,使用Flask+Redis维护动态代理池,定时CRUD,获取最新、有效的IP地址,用于IP代理.  参考项目:<br><a href="https://github.com/jhao104/proxy_pool" target="_blank" rel="noopener">大神</a>         ps:惭愧啊! 自学的时候常用它,竟还不知道尊姓大名,对不住!<br><a href="https://github.com/qiyeboy/IPProxyPool" target="_blank" rel="noopener">七夜大神开源项目</a><br><a href="https://github.com/awolfly9/IPProxyTool" target="_blank" rel="noopener">大神</a></li>
+<li><p>那就是付费代理啦<br>这里整个阿布云代理的代码,作为示范:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">proxyServer = &quot;http://http-dyn.abuyun.com:9020&quot;  #阿布云服务</span><br><span class="line">proxyUser = &quot;.............&quot;</span><br><span class="line">proxyPass = &quot;.................&quot;</span><br><span class="line">proxyAuth = &quot;Basic &quot; + str(base64.b64encode((proxyUser + &quot;:&quot; + proxyPass).encode(&apos;utf-8&apos;)), &apos;utf-8&apos;)</span><br><span class="line">def process_request(self, request, spider):</span><br><span class="line">        request.meta[&quot;proxy&quot;] = proxyServer</span><br><span class="line">        request.headers[&quot;Proxy-Authorization&quot;] = proxyAuth</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">   如果有用户名和密码建议使用base64编码一下</span><br><span class="line">   proxy_user_pass=&quot;USERNAME:PASSWORD&quot; encode_user_pass=base64.encodestring(proxy_user_pass)</span><br><span class="line"> request.headers[&apos;Proxy-Authorization&apos;]=&apos;Basic&apos;+encode_user_pass</span><br><span class="line">&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Python爬虫还在找代理你就OUT了!<em>Crawlera</em>神器还需要找代理IP?<br>scrapy_crawlera(<a href="https://scrapinghub.com/crawlera" target="_blank" rel="noopener">https://scrapinghub.com/crawlera</a>)    免费兼收费,由于免费代理十混九瞎折腾老半天没出几个好用的,这种代理来的不太算容易吧!还要有验证的麻烦事。那我们可以利用Crawlera轻松解决,岂不快哉? 是不是感觉比以往的那种寻找出的代理池棒多了?<br>安装 方法  pip install crawlera </p>
+</li>
+</ol>
+<p><a href="https://doc.scrapinghub.com/crawlera.html" target="_blank" rel="noopener">官方文档</a><br>我也还在学习中,就小举下使用方法吧<br><figure class="highlight plain"><figcaption><span>&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">            &apos;tenement.middlewares.TenementSpiderMiddleware&apos;: 543,</span><br><span class="line">           # &apos;tenement.middlewares.IPProxiesMiddleware&apos;: 300,</span><br><span class="line">            &apos;tenement.middlewares.RandomUserAgent&apos;: 400,</span><br><span class="line">            # 使用scrapy_crawlera 就可以将之前设置过的代理ip中间件注释掉了,加入了crawlera的代理</span><br><span class="line">             &apos;scrapy_crawlera.CrawleraMiddleware&apos;: 600</span><br><span class="line">        &#125;,</span><br><span class="line">官方还提示了:</span><br><span class="line">为了使crawlera生效,需求添加你创建的api信息(如果填写了API key的话,pass可以设置为空)</span><br><span class="line">         &apos;CRAWLERA_ENABLED&apos;: True,</span><br><span class="line">        &apos;CRAWLERA_USER&apos;=&quot;&lt;API KEY&gt;&quot;</span><br><span class="line">         &apos;CRAWLERA_PASS&apos;: &apos;&apos;,</span><br><span class="line">其他就去crawlera官方文档学习吧(嘿嘿自个学习去,我也还没看完,不能在这误人子弟)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在scrapy中的middlewares中写入代理中间件</span><br><span class="line">class RandomUserAgent(object):</span><br><span class="line">    def process_request(self, request, spider):</span><br><span class="line">        useragent = random.choice(USER_AGENTS)</span><br><span class="line">        request.headers[&apos;User-Agent&apos;] = useragent</span><br></pre></td></tr></table></figure>
+<p>随机头User-Agent  将收集着的全放出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">USER_AGENTS = [</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/22.0.1207.1 Safari/537.1&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/20.0.1132.57 Safari/536.11&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/20.0.1092.0 Safari/536.6&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/20.0.1090.0 Safari/536.6&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.77.34.5 Safari/537.1&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1084.9 Safari/536.5&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1084.36 Safari/536.5&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1063.0 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1063.0 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1063.0 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1062.0 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1062.0 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1061.1 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1061.1 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1061.1 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1061.0 Safari/536.3&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1055.1 Safari/535.24&quot;,</span><br><span class="line">    &quot;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) &quot;</span><br><span class="line">    &quot;Chrome/19.0.1055.1 Safari/535.24&quot;</span><br><span class="line">]</span><br><span class="line">    USER-AGENT_MOBILE = [&quot;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 &quot;</span><br><span class="line">                              &quot;(KHTML, like Gecko) Chrome/59.0.3071.115 Mobile Safari/537.36&quot;,</span><br><span class="line">                              &quot;Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 &quot;</span><br><span class="line">                              &quot;(KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1&quot;,</span><br><span class="line">                              &quot;Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, &quot;</span><br><span class="line">                              &quot;like Gecko) Version/9.0 Mobile/13B143 Safari/601.1&quot;,</span><br><span class="line">                              &quot;Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, &quot;</span><br><span class="line">                              &quot;like Gecko) Chrome/62.0.3202.75 Mobile Safari/537.36&quot;,</span><br><span class="line">                              &quot;Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) &quot;</span><br><span class="line">                              &quot;Version/9.0 Mobile/13B143 Safari/601.1&quot;]</span><br></pre></td></tr></table></figure></p>
+<pre><code>说完中间件了,那就来一波scrapy的settings文件骚操作吧。Scrapy既然设置允许您自定义所有Scrapy组件的行为，包括核心，扩展，管道和爬虫本身。那肯定有它的理由,学的浅就不深究了,还是实打实上图吧。
+</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/11372882-6c3e93385a1802dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自定义settings"><br>      尴尬!篇幅太长了,在这里我就省去日志编写、保存数据这两步,保存方法不唯一,想怎么保存就怎么来<br>scrapy crawl spider_name -o xxx.json/xxx.csv  可直接保存对应的文件哦</p>
+<h3 id="最后附上我的源码"><a href="#最后附上我的源码" class="headerlink" title="最后附上我的源码"></a>最后附上我的<a href="https://github.com/DannielDylan/xiaozhuduanzuSpider" target="_blank" rel="noopener">源码</a></h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/danniel/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/danniel/2018/04/05/Python基础time模块及异常捕获操作小结/" rel="next" title="time模块的应用、try...except...finally">
+                <i class="fa fa-chevron-left"></i> time模块的应用、try...except...finally
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/danniel/2018/04/13/MongoDB数据库/" rel="prev" title="MongoDB数据库">
+                MongoDB数据库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">DylanWoo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/danniel/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/danniel/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/danniel/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/DannielDylan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:danniel0723@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-创建项目-tenement"><span class="nav-number">1.</span> <span class="nav-text">一 创建项目 tenement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-找出想要的url-发送请求-获取响应"><span class="nav-number">2.</span> <span class="nav-text">二 找出想要的url(发送请求,获取响应)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TODO-记得爬小猪短租APP"><span class="nav-number">2.0.1.</span> <span class="nav-text">TODO  记得爬小猪短租APP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写parse函数-利用Xpath或者Selector提取对应的数据"><span class="nav-number">3.</span> <span class="nav-text">写parse函数  利用Xpath或者Selector提取对应的数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DEBUG调试"><span class="nav-number">3.0.1.</span> <span class="nav-text">DEBUG调试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#爬取数据过程中要与反爬技术常打交道-该程序只用了常规的IP代理-UA随机请求头两中间件。"><span class="nav-number">4.</span> <span class="nav-text">爬取数据过程中要与反爬技术常打交道,该程序只用了常规的IP代理,UA随机请求头两中间件。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后附上我的源码"><span class="nav-number">5.</span> <span class="nav-text">最后附上我的源码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DylanWoo</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">16.3k</span>
+  
+</div>
+
+
+// 写上访客数量
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共16.3k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/danniel/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/danniel/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/danniel/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/danniel/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+

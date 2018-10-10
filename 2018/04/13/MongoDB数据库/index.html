@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/danniel/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/danniel/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/danniel/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/danniel/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/danniel/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/danniel/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/danniel/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/danniel/atom.xml" title="Danniel’s Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="python数据库操作MySQL-MongoDB-Redis之二     MongoDB ####一  MongoDB 在win10下的安装MongoDB官网  从官网下载完安装包后，开始安装：（我这以最新的mongodb-win32-x86_64-2008plus-ssl-3.6.3-signed.msi版本举例）安装过程：  custom是自定义安装选项，建议安装在非系统盘（C盘）上  关键点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB数据库">
+<meta property="og:url" content="https://dannieldylan.github.io/danniel/2018/04/13/MongoDB数据库/index.html">
+<meta property="og:site_name" content="Danniel’s Blog">
+<meta property="og:description" content="python数据库操作MySQL-MongoDB-Redis之二     MongoDB ####一  MongoDB 在win10下的安装MongoDB官网  从官网下载完安装包后，开始安装：（我这以最新的mongodb-win32-x86_64-2008plus-ssl-3.6.3-signed.msi版本举例）安装过程：  custom是自定义安装选项，建议安装在非系统盘（C盘）上  关键点">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-37c1ab40fb4b2681.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-246f50290beb4198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-c755860031e679e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-65b7a6e7fbddae7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-c168138e1b36d39d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-a21daf7757195e7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-8dc8402ecbeed7df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-b71da4a3bbcd6a89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-be2a1bd202ddc1a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-21bd370c969fbd19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11372882-3347295567191c47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-10-10T13:45:43.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB数据库">
+<meta name="twitter:description" content="python数据库操作MySQL-MongoDB-Redis之二     MongoDB ####一  MongoDB 在win10下的安装MongoDB官网  从官网下载完安装包后，开始安装：（我这以最新的mongodb-win32-x86_64-2008plus-ssl-3.6.3-signed.msi版本举例）安装过程：  custom是自定义安装选项，建议安装在非系统盘（C盘）上  关键点">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11372882-37c1ab40fb4b2681.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/danniel/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dannieldylan.github.io/danniel/2018/04/13/MongoDB数据库/"/>
+
+
+
+
+
+  <title>MongoDB数据库 | Danniel’s Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/danniel/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Danniel’s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/danniel/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/danniel/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/danniel/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/danniel/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dannieldylan.github.io/danniel/danniel/2018/04/13/MongoDB数据库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DylanWoo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/danniel/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Danniel’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MongoDB数据库</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-13T21:44:50+08:00">
+                2018-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center>python数据库操作MySQL-MongoDB-Redis之二     MongoDB</center></p>
+<p>####一  MongoDB 在win10下的安装<br><a href="https://www.mongodb.com/download-center?jmp=nav#community" target="_blank" rel="noopener">MongoDB官网</a></p>
+<ol>
+<li>从官网下载完安装包后，开始安装：（我这以最新的mongodb-win32-x86_64-2008plus-ssl-3.6.3-signed.msi版本举例）<br>安装过程：  custom是自定义安装选项，建议安装在非系统盘（C盘）上<br><img src="https://upload-images.jianshu.io/upload_images/11372882-37c1ab40fb4b2681.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></li>
+</ol>
+<p>关键点来了，就在下一步操作：<br><img src="https://upload-images.jianshu.io/upload_images/11372882-246f50290beb4198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<p>如果这不取消安装，会发现有的电脑死活安装不上，原因就在这compas问题上</p>
+<ol start="2">
+<li>再安装可视化界面（compass）（<a href="https://www.mongodb.com/download-center?jmp=docs&amp;_ga=2.208589714.169613539.1518053388-361642939.1518053388#compass）" target="_blank" rel="noopener">https://www.mongodb.com/download-center?jmp=docs&amp;_ga=2.208589714.169613539.1518053388-361642939.1518053388#compass）</a><br>这样可以防止出现MongoDB安装不成功</li>
+<li><p>现在配置启动MongoDB的服务以及将它设置为windows服务   </p>
+<ul>
+<li><p>使用快捷键快速呼出本地服务项： win+R 弹出运行框<img src="https://upload-images.jianshu.io/upload_images/11372882-c755860031e679e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+</li>
+<li><p>在出现的运行窗口中输入services.msc 然后按确定按钮，或者直接回城即可调出本地服务项<img src="https://upload-images.jianshu.io/upload_images/11372882-65b7a6e7fbddae7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"><br><img src="https://upload-images.jianshu.io/upload_images/11372882-c168138e1b36d39d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+</li>
+<li><p>找到mongodb服务，嘿嘿这提前说了，这就是我们下一步需要配置的mongodb服务<img src="https://upload-images.jianshu.io/upload_images/11372882-a21daf7757195e7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
+</li>
+<li><p>现在开始配置MongoDB服务：在cmd命令下跳转到D:\MongoDB\Server\3.6\bin目录下</p>
+<ul>
+<li>先创建MongoDB的config配置文件 用记事本打开，输入以下内容</li>
+<li>datapath=D:\MongoDB\data</li>
+<li><p>logpath=D:\MongoDB\log<img src="https://upload-images.jianshu.io/upload_images/11372882-8dc8402ecbeed7df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="11.png"></p>
+</li>
+<li><p>可设置开机自启动，或者手动启动关闭，</p>
+</li>
+</ul>
+</li>
+<li>开启MongoDB服务，以管理员身份启动cmd命令窗口。切换到MongoDB下的bin目录下输入net start MongoDB  提示xxx服务正在启动 xxx服务已经启动成功，就可以输入mongo.exe运行客户端了。</li>
+<li>这里有个小点：想要直接输入mongo.exe就能运行MongoDB，前提要将它添加到系统的环境变量里面去，详见以下步骤</li>
+<li><p>找到此电脑标识<img src="https://upload-images.jianshu.io/upload_images/11372882-b71da4a3bbcd6a89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="22.png"></p>
+</li>
+<li><p>右键选择属性<img src="https://upload-images.jianshu.io/upload_images/11372882-be2a1bd202ddc1a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="33.png"></p>
+</li>
+<li><p>选择高级系统设置<img src="https://upload-images.jianshu.io/upload_images/11372882-21bd370c969fbd19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="44.png"></p>
+</li>
+<li><p>详细步骤按序号进行（这种操作，使用任何软件都是异曲同工的事）<img src="https://upload-images.jianshu.io/upload_images/11372882-3347295567191c47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hah.png"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="二-MongoDB在ubuntu-1604下的安装"><a href="#二-MongoDB在ubuntu-1604下的安装" class="headerlink" title="二 MongoDB在ubuntu:1604下的安装"></a>二 MongoDB在ubuntu:1604下的安装</h4><ol>
+<li><strong>安装方式一</strong></li>
+</ol>
+<ul>
+<li>从官网下载linux/mongodb-linux-x86_64-ubuntu1604-3.6.3.tgz</li>
+<li>解压 tar -zxvf mongodb-linux-x86_64-ubuntu1604-3.6.3.tgz</li>
+<li>移动到/usr/local目录下<br>sudo mv mongodb-linux-x86_64-ubuntu1604-3.6.3 /usr/local/mongodb</li>
+<li>将可执行文件添加到PATH路径中<br>export PATH=/usr/local/mongodb/bin:$PATH</li>
+</ul>
+<ol start="2">
+<li><strong>安装方式二</strong></li>
+</ol>
+<ul>
+<li>直接简单粗暴,不需要下载源文件,可以直接用apt-get命令进行安装.打开终端,输入以下命令:  sudo apt-get install mongodb</li>
+<li>安装完成后,在终端输入以下命令查看MongoDB版本:<br>mongo -version</li>
+<li>启动与关闭mongodb命令如下:<br>service mongodb start   #启动mongodb服务<br>service mongodb stop   #终止mongodb服务</li>
+<li>默认设置MongoDB是随ubuntu系统启动自启动的,输入命令查看是否启动成功      pgrep mongo - I</li>
+<li>卸载mongodb<br>sudo apt-get –purge remove mongodb mongodb-clients mongodb-server</li>
+</ul>
+<h4 id="Mac端下载与安装-与linux大致相同就不再多写"><a href="#Mac端下载与安装-与linux大致相同就不再多写" class="headerlink" title="Mac端下载与安装 与linux大致相同就不再多写"></a>Mac端下载与安装 与linux大致相同就不再多写</h4><h4 id="MongoDB数据库的常用操作命令"><a href="#MongoDB数据库的常用操作命令" class="headerlink" title="MongoDB数据库的常用操作命令"></a>MongoDB数据库的常用操作命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show dbs:显示数据库列表</span><br><span class="line">show collections：显示当前数据库中的集合（类似关系数据库中的表table）</span><br><span class="line">show users：显示所有用户</span><br><span class="line">use yourDB：切换当前数据库至yourDB</span><br><span class="line">db.help() ：显示数据库操作命令</span><br><span class="line">db.yourCollection.help() ：显示集合操作命令，yourCollection是集合名</span><br></pre></td></tr></table></figure>
+<h4 id="数据库的CRUD操作"><a href="#数据库的CRUD操作" class="headerlink" title="数据库的CRUD操作"></a>数据库的CRUD操作</h4><ol>
+<li>将单个文档或多个文档插入并保存文档<br>db.collection_name.insert({‘bar’:’baz’})    #这一操作会给文档增加一个”_id”键(原来没有的话),然后保存到MongoDB中</li>
+</ol>
+<ul>
+<li>单个插入<br>db.collection_name.insertone({‘bar’:’baz’}) </li>
+<li>批量插入<br>db.collection_name.insermany()  #可以将多个文档插入到一个集合中<br>-</li>
+</ul>
+<ul>
+<li><a href="https://docs.mongodb.com/manual/reference/method/db.collection.update/#db.collection.update" title="db.collection.update（）" target="_blank" rel="noopener"><code>db.collection.update()</code></a>当与 选项一起使用时。<code>upsert: true</code></li>
+<li><a href="https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/#db.collection.updateOne" title="db.collection.updateOne（）" target="_blank" rel="noopener"><code>db.collection.updateOne()</code></a>当与选项一起使用时。<code>upsert: true</code></li>
+<li><a href="https://docs.mongodb.com/manual/reference/method/db.collection.updateMany/#db.collection.updateMany" title="db.collection.updateMany（）" target="_blank" rel="noopener"><code>db.collection.updateMany()</code></a>当与选项一起使用时。<code>upsert: true</code></li>
+<li><a href="https://docs.mongodb.com/manual/reference/method/db.collection.findAndModify/#db.collection.findAndModify" title="db.collection.findAndModify（）" target="_blank" rel="noopener"><code>db.collection.findAndModify()</code></a>当与选项一起使用时。<code>upsert: true</code></li>
+<li><a href="https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndUpdate/#db.collection.findOneAndUpdate" title="db.collection.findOneAndUpdate（）" target="_blank" rel="noopener"><code>db.collection.findOneAndUpdate()</code></a>当与选项一起使用时 。<code>upsert: true</code></li>
+<li><a href="https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndReplace/#db.collection.findOneAndReplace" title="db.collection.findOneAndReplace（）" target="_blank" rel="noopener"><code>db.collection.findOneAndReplace()</code></a>当与选项一起使用时 。<code>upsert: true</code></li>
+<li><a href="https://docs.mongodb.com/manual/reference/method/db.collection.save/#db.collection.save" title="db.collection.save（）" target="_blank" rel="noopener"><code>db.collection.save()</code></a>。</li>
+<li><a href="https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/#db.collection.bulkWrite" title="db.collection.bulkWrite（）" target="_blank" rel="noopener"><code>db.collection.bulkWrite()</code></a>。</li>
+</ul>
+<ol start="3">
+<li>查询文件<br>db.collection_name.find(query, projection)<br>query ：可选，使用查询操作符指定查询条件<br>projection ：可选，使用投影操作符指定返回的键。查询时返回文档中所有键值， 只需省略该参数即可（默认省略）。<br>若不指定 projection，则默认返回所有键，指定 projection 格式如下，有两种模式<br>db.collection.find(query, {title: 1, by: 1}) // inclusion模式 指定返回的键，不返回其他键<br>db.collection.find(query, {title: 0, by: 0}) // exclusion模式 指定不返回的键,返回其他键</li>
+</ol>
+<p>想要较可读性推荐使用pretty()方法<br>db.collection.find().pretty()<br>4.更新数据<br>db.collection_name.update(criteria,objNew,upset,multi)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query : update的查询条件，类似sql update查询内where后面的。</span><br><span class="line">update : update的对象和一些更新的操作符（如$,$inc...）等，也可以理解为sql update查询内set后面的</span><br><span class="line">upsert : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是false，不插入。</span><br><span class="line">multi : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。</span><br><span class="line">writeConcern :可选，抛出异常的级别。</span><br></pre></td></tr></table></figure></p>
+<ol start="5">
+<li>删除数据<br>db.collection_name.remove()   现在官方更推荐使用delete() 和detelemany()方法<br>删除集合下全部文档<br>db.inventory.deleteMany({})                           #推荐使用<br>删除status等于A的全部文档<br>db.inventory.deleteMany({ status : “A” })                    #推荐使用<br>删除status等于D的一个文档<br>db.inventory.deleteOne( { status: “D” } )                         #推荐使用<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4></li>
+</ol>
+<ul>
+<li>删除数据库的时候,切记要先切换到该数据库才能删除<br>use db_name<br>db.dropDatabase()</li>
+<li>MongoDB偏向于易用性,默认是没有开启用户权限的.</li>
+<li>每次执行完程序,都可以返回shell模式查看结果<br>输入 db.student.find()</li>
+<li>3.4版新增功能<br>下面的命令插入<code>123.40</code>作为 <code>NumberDecimal</code>具有和不具有周围的值引号：<br>db.json.insert({ decimalQuoted : NumberDecimal(“123.40”) })</li>
+</ul>
+<h4 id="python与MongoDB的交互"><a href="#python与MongoDB的交互" class="headerlink" title="python与MongoDB的交互"></a>python与MongoDB的交互</h4><ol>
+<li>创建数据库<br>import pymongo<br>client = pymongo.MongoClient(‘localhost’, 27017)     或<br>client = MongoClient(‘mongodb://localhost:27017/‘)  </li>
+<li>连接数据库<br>db = client.db_name      或    db = client”db_name”‘]</li>
+<li>连接集合<br>collection = db.collection_name     或     collection = db[‘collection_name’]  </li>
+<li>查看数据看下所有集合名称<br>db.collection_names()  </li>
+<li>插入数据<br>collection.insert()</li>
+<li>查看集合数据的总数<br>collection.find().count()  </li>
+<li>查询结果排序<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">collection.find().sort(&quot;key1&quot;) # 默认为升序  </span><br><span class="line">collection.find().sort(&quot;key1&quot;, pymongo.ASCENDING) # 升序  </span><br><span class="line">collection.find().sort(&quot;key1&quot;, pymongo.DESCENDING) # 降序  </span><br><span class="line">collection.find().sort([(&quot;key1&quot;, pymongo.ASCENDING), (&quot;key2&quot;, pymongo.DESCENDING)])   #多列排序</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>感谢您的阅读,以上是本人遇到过或学习过程记录的笔记,水平有限,仅供参考,如果发现错误请及时联系作者,谢谢!</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/danniel/2018/04/07/Python使用scrapy框架爬取小猪短租/" rel="next" title="python Scrapy爬取小猪短租">
+                <i class="fa fa-chevron-left"></i> python Scrapy爬取小猪短租
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/danniel/2018/04/14/MySQL数据库面试小结/" rel="prev" title="MySQL数据库面试小结">
+                MySQL数据库面试小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">DylanWoo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/danniel/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/danniel/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/danniel/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/DannielDylan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:danniel0723@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#二-MongoDB在ubuntu-1604下的安装"><span class="nav-number">1.</span> <span class="nav-text">二 MongoDB在ubuntu:1604下的安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mac端下载与安装-与linux大致相同就不再多写"><span class="nav-number">2.</span> <span class="nav-text">Mac端下载与安装 与linux大致相同就不再多写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MongoDB数据库的常用操作命令"><span class="nav-number">3.</span> <span class="nav-text">MongoDB数据库的常用操作命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库的CRUD操作"><span class="nav-number">4.</span> <span class="nav-text">数据库的CRUD操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">5.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#python与MongoDB的交互"><span class="nav-number">6.</span> <span class="nav-text">python与MongoDB的交互</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DylanWoo</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">16.3k</span>
+  
+</div>
+
+
+// 写上访客数量
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共16.3k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/danniel/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/danniel/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/danniel/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/danniel/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/danniel/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/danniel/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
